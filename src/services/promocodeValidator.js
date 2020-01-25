@@ -14,6 +14,7 @@ const getErrorsForPromocode = (promocode, args) => {
             } else {
                 let assertion;
                 // eslint-disable-next-line default-case
+                // TODO: Compare fields based on fieldType (ex: Date)
                 switch (rule.comparator) {
                 case '<':
                     assertion = params[rule.field] < rule.value;

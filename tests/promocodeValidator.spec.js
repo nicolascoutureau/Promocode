@@ -14,9 +14,7 @@ describe('Promocode Validation', () => {
                     },
                 ],
             },
-            {
-                age: 40,
-            },
+            { age: 40 },
         );
 
         expect(res.valid).toBe(true);
@@ -140,8 +138,8 @@ describe('Promocode Validation', () => {
                 ],
             },
             {
-                meteoIs: 'clear', //ok
-                meteoTemp: '16', //ok
+                meteoIs: 'clear', // ok
+                meteoTemp: '16', // ok
             },
         );
 
@@ -176,7 +174,7 @@ describe('Promocode Validation', () => {
             },
             {
                 meteoIs: 'clear',
-                meteoTemp: '12', //Too low
+                meteoTemp: '12', // Too low
             },
         );
 
@@ -216,5 +214,40 @@ describe('Promocode Validation', () => {
         );
 
         expect(res.valid).toBe(false);
+    });
+
+    test('it can validate || reducer', async () => {
+        const res = validatePromocode(
+            {
+                restrictions: [
+                    {
+                        type: 'reducer',
+                        operator: '||',
+                        rules: [
+                            {
+                                type: 'rule',
+                                field: 'meteoIs',
+                                comparator: '==',
+                                value: 'clear',
+                                valueType: 'date',
+                            },
+                            {
+                                type: 'rule',
+                                field: 'meteoTemp',
+                                comparator: '>',
+                                value: 15,
+                                valueType: 'number',
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                meteoIs: 'not-clear', // not good
+                meteoTemp: '16', // good
+            },
+        );
+
+        expect(res.valid).toBe(true);
     });
 });

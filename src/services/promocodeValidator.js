@@ -8,7 +8,6 @@ const getErrorsForPromocode = (promocode, args) => {
             if (rule.type === 'reducer') {
                 ruleIsValid = validateRules(rule.rules, params, valid, rule.operator);
 
-                console.log(ruleIsValid)
                 if (!ruleIsValid) {
                     errors.push(`${rule.rules[0].field} is not valid`);
                 }

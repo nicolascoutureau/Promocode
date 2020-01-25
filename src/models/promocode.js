@@ -24,6 +24,7 @@ const promocodeSchema = new mongoose.Schema(
             type: String,
             required: [true, 'Please enter a promocode name'],
             index: true,
+            unique: true
         },
 
         avantage: avantageSchema,
@@ -79,68 +80,3 @@ promocodeSchema.path('restrictions').discriminator('rule', buildRuleSchema());
 
 const Promocode = mongoose.model('Promocode', promocodeSchema);
 module.exports = Promocode;
-
-/* Promise.resolve()
-    .then(() => console.log('Creating promocode...'))
-    .then(() => {
-        const promocode = new Promocode({
-            name: 'Nico-date-4',
-            restrictions: [
-                {
-                    type: "reducer",
-                    operator: "||",
-                    rules: [
-                        {
-                            type: "rule",
-                            field: "age",
-                            comparator: "<",
-                            value: 30,
-                            valueType: "number"
-                        },
-                        {
-                            type: "rule",
-                            field: "age",
-                            comparator: ">",
-                            value: 40,
-                            valueType: "number"
-                        },
-                    ],
-                },
-                {
-                    type: "reducer",
-                    operator: "&&",
-                    rules: [
-                        {
-                            type: "rule",
-                            field: "date",
-                            comparator: ">",
-                            value: new Date(),
-                            valueType: "date"
-                        },
-                    ],
-                },
-                {
-                    type: "reducer",
-                    operator: "&&",
-                    rules: [
-                        {
-                            type: "rule",
-                            field: "meteoIs",
-                            comparator: "==",
-                            value: "clear",
-                            valueType: "date"
-                        },
-                        {
-                            type: "rule",
-                            field: "meteoTemp",
-                            comparator: ">",
-                            value: 9,
-                            valueType: "number"
-                        },
-                    ],
-                },
-            ],
-        });
-
-        promocode.save().then((res) => console.log(res));
-    }); */

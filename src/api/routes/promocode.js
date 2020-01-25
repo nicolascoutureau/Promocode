@@ -4,7 +4,6 @@ const validatePromocode = require('../../services/promocodeValidator');
 const weatherService = require('../../services/weatherService');
 
 module.exports = (router) => {
-
     /**
      * TODO: Validation
      * Creates a new promocode
@@ -23,8 +22,8 @@ module.exports = (router) => {
      * Tries to apply a promocode
      */
     router.post('/validate', async (req, res) => {
-        const promocode_name = req.body.promocode_name;
-        let arguments = req.body.arguments;
+        const { promocode_name } = req.body;
+        const args = req.body.arguments;
 
         const promocode = await Promocode.findOne({ name: promocode_name });
 
@@ -39,19 +38,20 @@ module.exports = (router) => {
             return;
         }
 
-        let weather = await weatherService.getInfos(arguments.town)
+        const weather = await weatherService.getInfos(args.town);
 
-        let errors = validatePromocode(promocode, {
-            age: arguments.age,
+        const { valid, errors } = validatePromocode(promocode, {
+            age: args.age,
             meteoIs: weather.is,
             meteoTemp: weather.meteoTemp,
-            date: new Date()
+            date: new Date(),
         });
 
         res.json({
             promocode_name,
-            status: errors.length > 0 ? 'denied' : 'accepted',
+            status: valid ? 'accepted' : 'denied',
             avantage: promocode.avantage,
+            errors,
         });
     });
 };

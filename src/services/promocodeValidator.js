@@ -1,39 +1,41 @@
-const getErrorsForPromocode = (promocode, arguments) => {
-    let errors = [];
+const getErrorsForPromocode = (promocode, args) => {
+    const errors = [];
 
-    function validateRules(rules, params, valid = true, operator = "&&") {
+    function validateRules(rules, params, valid = true, operator = '&&') {
         let ruleIsValid = null;
 
         rules.forEach((rule) => {
             if (rule.type === 'reducer') {
                 ruleIsValid = validateRules(rule.rules, params, valid, rule.operator);
 
-                if(!ruleIsValid) {
-                    errors.push(rule.rules[0].field + ' is not valid')
+                console.log(ruleIsValid)
+                if (!ruleIsValid) {
+                    errors.push(`${rule.rules[0].field} is not valid`);
                 }
             } else {
                 let assertion;
+                // eslint-disable-next-line default-case
                 switch (rule.comparator) {
-                    case '<':
-                        assertion = params[rule.field] < rule.value;
-                        break;
-                    case '>':
-                        assertion = params[rule.field] > rule.value;
-                        break;
-                    case '==':
-                        assertion = params[rule.field] == rule.value
-                        break;
+                case '<':
+                    assertion = params[rule.field] < rule.value;
+                    break;
+                case '>':
+                    assertion = params[rule.field] > rule.value;
+                    break;
+                case '==':
+                    assertion = params[rule.field] == rule.value;
+                    break;
                 }
 
                 switch (operator) {
-                    case "&&":
-                        ruleIsValid = ruleIsValid ? (ruleIsValid && assertion) : assertion;
-                        break;
-                    case '||':
-                        ruleIsValid = ruleIsValid ? (ruleIsValid || assertion) : assertion;
-                        break;
-                    default:
-                        ruleIsValid = false;
+                case '&&':
+                    ruleIsValid = ruleIsValid ? (ruleIsValid && assertion) : assertion;
+                    break;
+                case '||':
+                    ruleIsValid = ruleIsValid ? (ruleIsValid || assertion) : assertion;
+                    break;
+                default:
+                    ruleIsValid = false;
                 }
             }
         });
@@ -42,10 +44,13 @@ const getErrorsForPromocode = (promocode, arguments) => {
         return ruleIsValid;
     }
 
-    validateRules(promocode.restrictions, arguments);
+    const valid = validateRules(promocode.restrictions, args);
 
-    return [...new Set(errors)];
-}
+    return {
+        errors: [...new Set(errors)],
+        valid,
+    };
+};
 
 
 module.exports = getErrorsForPromocode;

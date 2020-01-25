@@ -1,1 +1,1 @@
-# Simple Node starter
+# Test technique Georges.tech

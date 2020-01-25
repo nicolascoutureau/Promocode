@@ -1,0 +1,164 @@
+{
+	"info": {
+		"_postman_id": "a90c8528-0a79-46b5-9ece-628ee369f388",
+		"name": "Promocodes - Nicolas Coutureau",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Promocode create",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTJjMzc5NWMyZTUxM2Y1YWVjMzljMzUiLCJpYXQiOjE1Nzk5NTY1OTYsImV4cCI6MTU4MDA0Mjk5Nn0.tuB7k6dbK_FqpmQm30dkfVS2wB4nysVxtpszQpyZREQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"WeatherCode\",\n\t\"avantage\": {\n\t\t\"percent\": 20\n\t},\n\t\"restrictions\": [{\n\t\t\t\"type\": \"reducer\",\n\t\t\t\"operator\": \"||\",\n\t\t\t\"rules\": [{\n\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\"field\": \"age\",\n\t\t\t\t\t\"comparator\": \"==\",\n\t\t\t\t\t\"value\": 40,\n\t\t\t\t\t\"valueType\": \"number\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"reducer\",\n\t\t\t\t\t\"operator\": \"&&\",\n\t\t\t\t\t\"rules\": [{\n\t\t\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\t\t\"field\": \"age\",\n\t\t\t\t\t\t\t\"comparator\": \"<\",\n\t\t\t\t\t\t\t\"value\": 30,\n\t\t\t\t\t\t\t\"valueType\": \"number\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\t\t\"field\": \"age\",\n\t\t\t\t\t\t\t\"comparator\": \">\",\n\t\t\t\t\t\t\t\"value\": 15,\n\t\t\t\t\t\t\t\"valueType\": \"number\"\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"type\": \"reducer\",\n\t\t\t\"operator\": \"&&\",\n\t\t\t\"rules\": [{\n\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\"field\": \"date\",\n\t\t\t\t\t\"comparator\": \">\",\n\t\t\t\t\t\"value\": \"2019-01-01\",\n\t\t\t\t\t\"valueType\": \"date\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\"field\": \"date\",\n\t\t\t\t\t\"comparator\": \"<\",\n\t\t\t\t\t\"value\": \"2020-06-30\",\n\t\t\t\t\t\"valueType\": \"date\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"type\": \"reducer\",\n\t\t\t\"operator\": \"&&\",\n\t\t\t\"rules\": [{\n\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\"field\": \"meteoIs\",\n\t\t\t\t\t\"comparator\": \"==\",\n\t\t\t\t\t\"value\": \"clear\",\n\t\t\t\t\t\"valueType\": \"date\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\"field\": \"meteoTemp\",\n\t\t\t\t\t\"comparator\": \">\",\n\t\t\t\t\t\"value\": 15,\n\t\t\t\t\t\"valueType\": \"number\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1337/api/promocodes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1337",
+					"path": [
+						"api",
+						"promocodes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Promocode Validate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"promocode_name\": \"WeatherCode\",\n \"arguments\": {\n   \"age\": 12,\n   \"meteo\": { \"town\": \"Lyon\" }\n }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1337/api/validate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1337",
+					"path": [
+						"api",
+						"validate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"nicolas\",\n\t\"email\" : \"nicolas.coutureau@gmail.com\",\n\t\"password\" : \"mypassword\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1337/api/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1337",
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"nicolas.coutureau@gmail.com\",\n\t\"password\": \"mypassword\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1337/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1337",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

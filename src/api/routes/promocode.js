@@ -5,7 +5,7 @@ const weatherService = require('../../services/weatherService');
 
 module.exports = (router) => {
     /**
-     * TODO: Validation
+     * TODO: Request Validation
      * Creates a new promocode
      */
     router.post('/promocodes',
@@ -18,7 +18,7 @@ module.exports = (router) => {
         });
 
     /**
-     * TODO: Validation
+     * TODO: Request Validation
      * Tries to apply a promocode
      */
     router.post('/validate', async (req, res) => {

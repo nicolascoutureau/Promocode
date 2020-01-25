@@ -1,11 +1,5 @@
 # Test technique Georges.tech
 
-## Lien de la collection Postman 
-https://raw.githubusercontent.com/nicolascoutureau/Georges/master/Promocodes%20-%20Nicolas%20Coutureau.postman_collection.json?token=ABJS2GRWP7ZO4GM3Q5RVOQK6FRHK6
-
-## Lien Heroku 
-https://georges-nicolas.herokuapp.com/api/status
-
 ## Structure d'un promocode :
 ```json
 {
@@ -92,3 +86,7 @@ https://georges-nicolas.herokuapp.com/api/status
     ]
 }
 ```
+## Collection Postman à la racine
+
+## Lien Heroku 
+https://georges-nicolas.herokuapp.com/api/status

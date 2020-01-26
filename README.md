@@ -3,8 +3,8 @@
 ## Structure d'un promocode :
 
 J'ai voulu harmoniser les règles et faire une structure qui permet d'ajouter de nouvelles règles sans avoir à toucher au code:
--> code promo invalide un certain jour, il suffit de mettre l'opérateur !=
--> code promo pour les femmes seulement, ajouter une règle '== femme' sur le field 'genre'
+* code promo invalide un certain jour, il suffit de mettre l'opérateur !=
+* code promo pour les femmes seulement, ajouter une règle '== femme' sur le field 'genre'
 
 ```json
 {

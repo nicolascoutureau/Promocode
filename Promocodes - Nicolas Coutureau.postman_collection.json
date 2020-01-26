@@ -29,7 +29,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"WeatherCode\",\n\t\"avantage\": {\n\t\t\"percent\": 20\n\t},\n\t\"restrictions\": [{\n\t\t\t\"type\": \"reducer\",\n\t\t\t\"operator\": \"||\",\n\t\t\t\"rules\": [{\n\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\"field\": \"age\",\n\t\t\t\t\t\"comparator\": \"==\",\n\t\t\t\t\t\"value\": 40,\n\t\t\t\t\t\"valueType\": \"number\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"reducer\",\n\t\t\t\t\t\"operator\": \"&&\",\n\t\t\t\t\t\"rules\": [{\n\t\t\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\t\t\"field\": \"age\",\n\t\t\t\t\t\t\t\"comparator\": \"<\",\n\t\t\t\t\t\t\t\"value\": 30,\n\t\t\t\t\t\t\t\"valueType\": \"number\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\t\t\"field\": \"age\",\n\t\t\t\t\t\t\t\"comparator\": \">\",\n\t\t\t\t\t\t\t\"value\": 15,\n\t\t\t\t\t\t\t\"valueType\": \"number\"\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"type\": \"reducer\",\n\t\t\t\"operator\": \"&&\",\n\t\t\t\"rules\": [{\n\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\"field\": \"date\",\n\t\t\t\t\t\"comparator\": \">\",\n\t\t\t\t\t\"value\": \"2019-01-01\",\n\t\t\t\t\t\"valueType\": \"date\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\"field\": \"date\",\n\t\t\t\t\t\"comparator\": \"<\",\n\t\t\t\t\t\"value\": \"2020-06-30\",\n\t\t\t\t\t\"valueType\": \"date\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"type\": \"reducer\",\n\t\t\t\"operator\": \"&&\",\n\t\t\t\"rules\": [{\n\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\"field\": \"meteoIs\",\n\t\t\t\t\t\"comparator\": \"==\",\n\t\t\t\t\t\"value\": \"clear\",\n\t\t\t\t\t\"valueType\": \"date\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\"field\": \"meteoTemp\",\n\t\t\t\t\t\"comparator\": \">\",\n\t\t\t\t\t\"value\": 15,\n\t\t\t\t\t\"valueType\": \"number\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}",
+					"raw": "{\n\t\"name\": \"WeatherCodeTest\",\n\t\"avantage\": {\n\t\t\"percent\": 20\n\t},\n\t\"restrictions\": [{\n\t\t\t\"type\": \"reducer\",\n\t\t\t\"operator\": \"||\",\n\t\t\t\"rules\": [{\n\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\"field\": \"age\",\n\t\t\t\t\t\"comparator\": \"==\",\n\t\t\t\t\t\"value\": 40,\n\t\t\t\t\t\"valueType\": \"number\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"reducer\",\n\t\t\t\t\t\"operator\": \"&&\",\n\t\t\t\t\t\"rules\": [{\n\t\t\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\t\t\"field\": \"age\",\n\t\t\t\t\t\t\t\"comparator\": \"<\",\n\t\t\t\t\t\t\t\"value\": 30,\n\t\t\t\t\t\t\t\"valueType\": \"number\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\t\t\"field\": \"age\",\n\t\t\t\t\t\t\t\"comparator\": \">\",\n\t\t\t\t\t\t\t\"value\": 15,\n\t\t\t\t\t\t\t\"valueType\": \"number\"\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"type\": \"reducer\",\n\t\t\t\"operator\": \"&&\",\n\t\t\t\"rules\": [{\n\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\"field\": \"date\",\n\t\t\t\t\t\"comparator\": \">\",\n\t\t\t\t\t\"value\": \"2019-01-01\",\n\t\t\t\t\t\"valueType\": \"date\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\"field\": \"date\",\n\t\t\t\t\t\"comparator\": \"<\",\n\t\t\t\t\t\"value\": \"2020-06-30\",\n\t\t\t\t\t\"valueType\": \"date\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"type\": \"reducer\",\n\t\t\t\"operator\": \"&&\",\n\t\t\t\"rules\": [{\n\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\"field\": \"meteoIs\",\n\t\t\t\t\t\"comparator\": \"==\",\n\t\t\t\t\t\"value\": \"clear\",\n\t\t\t\t\t\"valueType\": \"date\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"rule\",\n\t\t\t\t\t\"field\": \"meteoTemp\",\n\t\t\t\t\t\"comparator\": \">\",\n\t\t\t\t\t\"value\": 15,\n\t\t\t\t\t\"valueType\": \"number\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -37,12 +37,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:1337/api/promocodes",
-					"protocol": "http",
+					"raw": "https://georges-nicolas.herokuapp.com/api/promocodes",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"georges-nicolas",
+						"herokuapp",
+						"com"
 					],
-					"port": "1337",
 					"path": [
 						"api",
 						"promocodes"
@@ -73,12 +74,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:1337/api/validate",
-					"protocol": "http",
+					"raw": "https://georges-nicolas.herokuapp.com/api/validate",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"georges-nicolas",
+						"herokuapp",
+						"com"
 					],
-					"port": "1337",
 					"path": [
 						"api",
 						"validate"
@@ -95,13 +97,13 @@
 					{
 						"key": "Content-Type",
 						"name": "Content-Type",
-						"value": "application/x-www-form-urlencoded",
+						"value": "application/json",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"nicolas\",\n\t\"email\" : \"nicolas.coutureau@gmail.com\",\n\t\"password\" : \"mypassword\"\n}",
+					"raw": "{\n\t\"name\": \"nicolas\",\n\t\"email\" : \"nicolas.coutureau2@gmail.com\",\n\t\"password\" : \"mypassword\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -109,12 +111,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:1337/api/register",
-					"protocol": "http",
+					"raw": "https://georges-nicolas.herokuapp.com/api/register",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"georges-nicolas",
+						"herokuapp",
+						"com"
 					],
-					"port": "1337",
 					"path": [
 						"api",
 						"register"
@@ -145,12 +148,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:1337/api/login",
-					"protocol": "http",
+					"raw": "https://georges-nicolas.herokuapp.com/api/login",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"georges-nicolas",
+						"herokuapp",
+						"com"
 					],
-					"port": "1337",
 					"path": [
 						"api",
 						"login"

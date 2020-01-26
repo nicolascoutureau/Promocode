@@ -1,45 +1,80 @@
+/**
+ * TODO: compare fields based on type (ex: Date)
+ *
+ * @param rule
+ * @param params
+ * @returns {boolean}
+ */
+function isComparisonValid(rule, params) {
+    let assertion;
+
+    switch (rule.comparator) {
+    case '<':
+        assertion = params[rule.field] < rule.value;
+        break;
+    case '>':
+        assertion = params[rule.field] > rule.value;
+        break;
+    case '==':
+        // eslint-disable-next-line eqeqeq
+        assertion = params[rule.field] == rule.value;
+        break;
+    default:
+        assertion = false;
+    }
+
+    return assertion;
+}
+
+/**
+ *
+ * @param ruleIsValid
+ * @param operator
+ * @param assertion
+ * @returns boolean
+ */
+function applyBinaryOperator(ruleIsValid, operator, assertion) {
+    let valid;
+
+    switch (operator) {
+    case '&&':
+        valid = ruleIsValid !== null ? (ruleIsValid && assertion) : assertion;
+        break;
+    case '||':
+        valid = ruleIsValid !== null ? (ruleIsValid || assertion) : assertion;
+        break;
+    default:
+        valid = false;
+    }
+
+    return valid;
+}
+
+/**
+ *
+ * @param promocode
+ * @param args
+ * @returns {{valid: *, errors: *[]}}
+ */
 const getErrorsForPromocode = (promocode, args) => {
     const errors = [];
 
-    function validateRules(rules, params, valid = true, operator = '&&') {
+    function validateRules(rules, params, operator = '&&') {
         let ruleIsValid = null;
 
         rules.forEach((rule) => {
             if (rule.type === 'reducer') {
-                ruleIsValid = validateRules(rule.rules, params, valid, rule.operator);
+                const assertion = validateRules(rule.rules, params, rule.operator);
+                ruleIsValid = applyBinaryOperator(ruleIsValid, operator, assertion);
 
                 if (!ruleIsValid) {
                     errors.push(`${rule.rules[0].field} is not valid`);
                 }
             } else {
-                let assertion;
-                // eslint-disable-next-line default-case
-                // TODO: Compare fields based on fieldType (ex: Date)
-                switch (rule.comparator) {
-                case '<':
-                    assertion = params[rule.field] < rule.value;
-                    break;
-                case '>':
-                    assertion = params[rule.field] > rule.value;
-                    break;
-                case '==':
-                    assertion = params[rule.field] == rule.value;
-                    break;
-                }
-
-                switch (operator) {
-                case '&&':
-                    ruleIsValid = ruleIsValid ? (ruleIsValid && assertion) : assertion;
-                    break;
-                case '||':
-                    ruleIsValid = ruleIsValid ? (ruleIsValid || assertion) : assertion;
-                    break;
-                default:
-                    ruleIsValid = false;
-                }
+                const assertion = isComparisonValid(rule, params);
+                ruleIsValid = applyBinaryOperator(ruleIsValid, operator, assertion);
             }
         });
-
 
         return ruleIsValid;
     }
@@ -51,6 +86,5 @@ const getErrorsForPromocode = (promocode, args) => {
         valid,
     };
 };
-
 
 module.exports = getErrorsForPromocode;

@@ -20,7 +20,7 @@ describe('Promocode Validation', () => {
         expect(res.valid).toBe(true);
     });
 
-    test('it doesnt validate age', async () => {
+    test('it can reject age', async () => {
         const res = validatePromocode(
             {
                 restrictions: [
@@ -38,6 +38,7 @@ describe('Promocode Validation', () => {
             },
         );
 
+        console.log(res.errors)
         expect(res.valid).toBe(false);
     });
 
@@ -250,4 +251,496 @@ describe('Promocode Validation', () => {
 
         expect(res.valid).toBe(true);
     });
+
+    test('it can validate nested reducer', async () => {
+        const res = validatePromocode(
+            {
+                restrictions: [
+                    {
+                        type: 'rule',
+                        field: 'age',
+                        comparator: '>',
+                        value: '18',
+                        valueType: 'number',
+                    },
+                    {
+                        type: 'reducer',
+                        operator: '||',
+                        rules: [
+                            {
+                                type: 'rule',
+                                field: 'meteoIs',
+                                comparator: '==',
+                                value: 'clear',
+                                valueType: 'date',
+                            },
+                            {
+                                type: 'rule',
+                                field: 'meteoTemp',
+                                comparator: '>',
+                                value: 15,
+                                valueType: 'number',
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                age: '19', // good
+                meteoIs: 'clear', // good
+                meteoTemp: '14', // not good
+            },
+        );
+
+        expect(res.valid).toBe(true);
+    });
+
+    test('it can reject nested reducer', async () => {
+        const res = validatePromocode(
+            {
+                restrictions: [
+                    {
+                        type: 'rule',
+                        field: 'age',
+                        comparator: '>',
+                        value: '18',
+                        valueType: 'number',
+                    },
+                    {
+                        type: 'reducer',
+                        operator: '||',
+                        rules: [
+                            {
+                                type: 'rule',
+                                field: 'meteoIs',
+                                comparator: '==',
+                                value: 'clear',
+                                valueType: 'date',
+                            },
+                            {
+                                type: 'rule',
+                                field: 'meteoTemp',
+                                comparator: '>',
+                                value: 15,
+                                valueType: 'number',
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                age: '19', // good
+                meteoIs: 'not-clear', // not good
+                meteoTemp: '14', // not good
+            },
+        );
+
+        expect(res.valid).toBe(false);
+    });
+
+    test('it can validate full exemple', async () => {
+        const res = validatePromocode(
+            {
+                restrictions: [
+                    {
+                        type: 'reducer',
+                        operator: '||',
+                        rules: [
+                            {
+                                type: 'rule',
+                                field: 'age',
+                                comparator: '==',
+                                value: 40,
+                                valueType: 'number',
+                            },
+                            {
+                                type: 'reducer',
+                                operator: '&&',
+                                rules: [
+                                    {
+                                        type: 'rule',
+                                        field: 'age',
+                                        comparator: '<',
+                                        value: 30,
+                                        valueType: 'number',
+                                    },
+                                    {
+                                        type: 'rule',
+                                        field: 'age',
+                                        comparator: '>',
+                                        value: 15,
+                                        valueType: 'number',
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        type: 'reducer',
+                        operator: '&&',
+                        rules: [
+                            {
+                                type: 'rule',
+                                field: 'date',
+                                comparator: '>',
+                                value: '2019-01-01',
+                                valueType: 'date',
+                            },
+                            {
+                                type: 'rule',
+                                field: 'date',
+                                comparator: '<',
+                                value: '2020-06-30',
+                                valueType: 'date',
+                            },
+                        ],
+                    },
+                    {
+                        type: 'reducer',
+                        operator: '&&',
+                        rules: [
+                            {
+                                type: 'rule',
+                                field: 'meteoIs',
+                                comparator: '==',
+                                value: 'clear',
+                                valueType: 'date',
+                            },
+                            {
+                                type: 'rule',
+                                field: 'meteoTemp',
+                                comparator: '>',
+                                value: 15,
+                                valueType: 'number',
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                age: '40', // good
+                meteoIs: 'clear', // good
+                meteoTemp: '16', // good
+                date: '2019-01-02', // good
+            },
+        );
+
+        expect(res.valid).toBe(true);
+    });
+
+    test('it can reject && exemple', async () => {
+        const res = validatePromocode(
+            {
+                restrictions: [
+                    {
+                        type: 'reducer',
+                        operator: '&&',
+                        rules: [
+                            {
+                                type: 'rule',
+                                field: 'meteoIs',
+                                comparator: '==',
+                                value: 'clear',
+                                valueType: 'date',
+                            },
+                            {
+                                type: 'rule',
+                                field: 'meteoTemp',
+                                comparator: '>',
+                                value: 15,
+                                valueType: 'number',
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                age: '40', // good
+                meteoIs: 'not-clear', // not good
+                meteoTemp: '16', // good
+                date: '2019-01-02', // good
+            },
+        );
+
+        expect(res.valid).toBe(false);
+    });
+
+    test('it can reject full exemple without date', async () => {
+        const res = validatePromocode(
+            {
+                restrictions: [
+                    {
+                        type: 'reducer',
+                        operator: '&&',
+                        rules: [
+                            {
+                                type: 'rule',
+                                field: 'meteoIs',
+                                comparator: '==',
+                                value: 'clear',
+                                valueType: 'date',
+                            },
+                            {
+                                type: 'rule',
+                                field: 'meteoTemp',
+                                comparator: '>',
+                                value: 15,
+                                valueType: 'number',
+                            },
+                        ],
+                    },
+                    {
+                        type: 'reducer',
+                        operator: '||',
+                        rules: [
+                            {
+                                type: 'rule',
+                                field: 'age',
+                                comparator: '==',
+                                value: 40,
+                                valueType: 'number',
+                            },
+                            {
+                                type: 'reducer',
+                                operator: '&&',
+                                rules: [
+                                    {
+                                        type: 'rule',
+                                        field: 'age',
+                                        comparator: '<',
+                                        value: 30,
+                                        valueType: 'number',
+                                    },
+                                    {
+                                        type: 'rule',
+                                        field: 'age',
+                                        comparator: '>',
+                                        value: 15,
+                                        valueType: 'number',
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                age: '40', // good
+                meteoIs: 'not-clear', // not good
+                meteoTemp: '16', // good
+            },
+        );
+
+        expect(res.valid).toBe(false);
+    });
+
+    test('it can validate nested reducers', async () => {
+        const res = validatePromocode(
+            {
+                restrictions: [
+                    {
+                        type: 'reducer',
+                        operator: '||',
+                        rules: [
+                            {
+                                type: 'rule',
+                                field: 'age',
+                                comparator: '==',
+                                value: 40,
+                                valueType: 'number',
+                            },
+                            {
+                                type: 'reducer',
+                                operator: '&&',
+                                rules: [
+                                    {
+                                        type: 'rule',
+                                        field: 'age',
+                                        comparator: '<',
+                                        value: 30,
+                                        valueType: 'number',
+                                    },
+                                    {
+                                        type: 'rule',
+                                        field: 'age',
+                                        comparator: '>',
+                                        value: 15,
+                                        valueType: 'number',
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                age: '40', // good
+            },
+        );
+
+        expect(res.valid).toBe(true);
+    });
+
+    test('it can validate full exemple without date', async () => {
+        const res = validatePromocode(
+            {
+                restrictions: [
+                    {
+                        type: 'reducer',
+                        operator: '&&',
+                        rules: [
+                            {
+                                type: 'rule',
+                                field: 'meteoIs',
+                                comparator: '==',
+                                value: 'clear',
+                                valueType: 'date',
+                            },
+                            {
+                                type: 'rule',
+                                field: 'meteoTemp',
+                                comparator: '>',
+                                value: 15,
+                                valueType: 'number',
+                            },
+                        ],
+                    },
+                    {
+                        type: 'reducer',
+                        operator: '||',
+                        rules: [
+                            {
+                                type: 'rule',
+                                field: 'age',
+                                comparator: '==',
+                                value: 40,
+                                valueType: 'number',
+                            },
+                            {
+                                type: 'reducer',
+                                operator: '&&',
+                                rules: [
+                                    {
+                                        type: 'rule',
+                                        field: 'age',
+                                        comparator: '<',
+                                        value: 30,
+                                        valueType: 'number',
+                                    },
+                                    {
+                                        type: 'rule',
+                                        field: 'age',
+                                        comparator: '>',
+                                        value: 15,
+                                        valueType: 'number',
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                age: '40', // good
+                meteoIs: 'clear', // good
+                meteoTemp: '16', // good
+            },
+        );
+
+        expect(res.valid).toBe(true);
+    });
+
+    test('full example', async () => {
+        const res = validatePromocode(
+            {
+                restrictions: [
+                    {
+                        type: 'reducer',
+                        operator: '&&',
+                        rules: [
+                            {
+                                type: 'rule',
+                                field: 'meteoIs',
+                                comparator: '==',
+                                value: 'clear',
+                                valueType: 'date',
+                            },
+                            {
+                                type: 'rule',
+                                field: 'meteoTemp',
+                                comparator: '>',
+                                value: 15,
+                                valueType: 'number',
+                            },
+                        ],
+                    },
+                    {
+                        type: 'reducer',
+                        operator: '||',
+                        rules: [
+                            {
+                                type: 'rule',
+                                field: 'age',
+                                comparator: '==',
+                                value: 40,
+                                valueType: 'number',
+                            },
+                            {
+                                type: 'reducer',
+                                operator: '&&',
+                                rules: [
+                                    {
+                                        type: 'rule',
+                                        field: 'age',
+                                        comparator: '<',
+                                        value: 30,
+                                        valueType: 'number',
+                                    },
+                                    {
+                                        type: 'rule',
+                                        field: 'age',
+                                        comparator: '>',
+                                        value: 15,
+                                        valueType: 'number',
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        type: 'reducer',
+                        operator: '&&',
+                        rules: [
+                            {
+                                type: 'rule',
+                                field: 'date',
+                                comparator: '>',
+                                value: '2019-01-01',
+                                valueType: 'date',
+                            },
+                            {
+                                type: 'rule',
+                                field: 'date',
+                                comparator: '<',
+                                value: '2020-06-30',
+                                valueType: 'date',
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                age: '40', // good
+                meteoIs: 'not-clear', // not good
+                meteoTemp: '16', // good
+                date: '2019-01-02', // good
+            },
+        );
+
+        expect(res.valid).toBe(false);
+    });
 });
+
+
+
+

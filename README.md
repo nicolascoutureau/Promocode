@@ -1,4 +1,4 @@
-# Test technique Georges.tech
+# Test technique de création d'un microservice de gestion de codes promos avec des règles imbriquées
 
 ## Structure d'un promocode :
 
